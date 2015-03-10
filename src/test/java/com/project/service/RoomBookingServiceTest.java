@@ -52,6 +52,8 @@ public class RoomBookingServiceTest {
 		reservation3.setEndTime(new DateTime(2015, 02, 01, 12, 30, 0, 0));
 
 		Schedule.addToScheduleList(reservation1);
+		RoomList.addToRoomListList(room1);
+
 	}
 
 	@After()
@@ -63,14 +65,11 @@ public class RoomBookingServiceTest {
 	@Test
 	public void testisNotAvaialable() {
 		assertFalse(service.isAvailable(reservation1));
-
 	}
 
 	@Test
 	public void testisAvaialable() {
-
 		assertTrue(service.isAvailable(reservation2));
-
 	}
 
 	@Test

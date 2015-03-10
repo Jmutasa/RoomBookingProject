@@ -49,8 +49,6 @@ public class RoomBookingServiceImpl implements RoomBookingServiceInterface {
 
 	public void book(Reservation reservation) {
 		Schedule.addToScheduleList(reservation);
-		System.out.println("Confirmed Bookings : "
-				+ Schedule.getScheduleList().toString());
 
 	}
 

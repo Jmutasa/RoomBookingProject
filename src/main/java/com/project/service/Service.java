@@ -1,28 +1,31 @@
 package com.project.service;
 
+import com.project.model.Message;
 import com.project.model.Reservation;
+import com.project.model.Schedule;
 
 public class Service {
 	
 RoomBookingServiceImpl serviceImpl = new RoomBookingServiceImpl();
+Message message = new Message();
 
-public boolean bookRoom(Reservation e){
+public String bookRoom(Reservation e){
 	
 	if (serviceImpl.isAvailable(e) && serviceImpl.isInRoomList(e)){
 		serviceImpl.book(e);
-		System.out.println("Room has been booked for given timeslot");
-		return true;
-	}
-	
-	if (!serviceImpl.isInRoomList(e)){
-		System.out.println("The room you are trying to book does not exist");
+		System.out.println("Room has been Booked!"  +  Schedule.getScheduleList().toString());
+		
+		return message.getMessageList().get(0);
 	}
 	
 	if (!serviceImpl.isAvailable(e)) {
-		System.out.println("The room is not available for given timeslot");
+		System.out.println("Room one is booked for part or all of the period you attempted to book for.");
+		return message.getMessageList().get(1);
+
+
 	}
 	
-	return false;
+	return message.getMessageList().get(2);
 
 }
 

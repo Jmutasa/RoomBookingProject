@@ -47,7 +47,7 @@ public class Reservation {
 
 		  @Override
 			public String toString() {
-				return "Reservation [room=" + room + ", occupant=" + occupant
+				return "Bookings [room=" + room.getName() + ", occupant=" + occupant
 						+ ", startTime=" + startTime + ", endTime=" + endTime + "]";
 			}
 

@@ -88,19 +88,19 @@ Scenario: Confirm no one else can get room at the same time as me
   
     Given the following rooms:
       | Name | Capacity | Tags |
-      | one  | 5        |      |
+      | blah | 5        |      |
     And the following schedules:
       | Room Occupant | Room Name | Start Time       | End Time         |
-      | Bob           | one       | 02/01/2015 10:30 | 02/01/2015 11:30 |
+      | Bob           | blah       | 02/01/2015 10:30 | 02/01/2015 11:30 |
     When I try to book the following rooms:
       | Room Occupant | Room Name | Start Time       | End Time         |
-      | Joe           | one       | 02/01/2015 10:30 | 02/01/2015 11:30 |
+      | Joe           | blah      | 02/01/2015 10:30 | 02/01/2015 11:30 |
     Then I expect the following schedule to be confirmed:
       | Room Occupant | Room Name | Start Time       | End Time         |
-      | Bob           | one       | 02/01/2015 10:30 | 02/01/2015 11:30 |
+      | Bob           | blah      | 02/01/2015 10:30 | 02/01/2015 11:30 |
     And I expect the following error messages:
       | Message                                                                     |
-      | Room one is booked for part or all of the period you attempted to book for. |
+      | Room blah is booked for part or all of the period you attempted to book for. |
 
 #----------------------------------------------------------------------------------------------------      
       

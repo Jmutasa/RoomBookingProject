@@ -27,6 +27,7 @@ public class RoomBookingStepDefinition {
 	Room room;
 	DateTimeFormatter format = DateTimeFormat.forPattern("MM/dd/YYYY HH:mm");
 	Service service = new Service();
+	String message;
 
 	@Before
 	public void setup() {
@@ -68,7 +69,7 @@ public class RoomBookingStepDefinition {
 			DateTime endTime = format.parseDateTime(row.get("End Time"));
 			reservation = new Reservation(room, row.get("Room Occupant"),
 					startTime, endTime);
-			service.bookRoom(reservation);
+		message = service.bookRoom(reservation);
 
 		}
 
@@ -77,7 +78,7 @@ public class RoomBookingStepDefinition {
 	@Then("^I expect the following schedule to be confirmed:$")
 	public void I_expect_the_following_schedule_to_be_confirmed(
 			List<Map<String, String>> data) throws Throwable {
-		List<Reservation> confirmedList = new ArrayList();
+		List<Reservation> confirmedList = new ArrayList<Reservation>();
 		for (Map<String, String> row : data) {
 			room = new Room(row.get("Room Name"));
 			DateTime startTime = format.parseDateTime(row.get("Start Time"));
@@ -93,7 +94,8 @@ public class RoomBookingStepDefinition {
 
 	@Then("^I expect the following error messages:$")
 	public void I_expect_the_following_error_messages(DataTable arg1)
-			throws Throwable {
+			throws Throwable {	
+		assertEquals(message,"Room one is booked for part or all of the period you attempted to book for." );
 
 	}
 
