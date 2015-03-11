@@ -1,6 +1,7 @@
 package com.project.cucumber;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -8,26 +9,25 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.project.model.Reservation;
+import com.project.model.Booking;
 import com.project.model.Room;
 import com.project.model.RoomList;
 import com.project.model.Schedule;
-import com.project.service.Service;
+import com.project.service.RoomBookingInterface;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.*;
 
-public class RoomBookingStepDefinition {
+public class StepDefinitions {
 
-	Reservation reservation;
+	Booking booking;
 	Room room;
 	DateTimeFormatter format = DateTimeFormat.forPattern("MM/dd/YYYY HH:mm");
-	Service service = new Service();
-	String message;
+	RoomBookingInterface service = new RoomBookingInterface();
+	String errorMessage;
 
 	@Before
 	public void setup() {
@@ -54,9 +54,9 @@ public class RoomBookingStepDefinition {
 			room = new Room(row.get("Room Name"));
 			DateTime startTime = format.parseDateTime(row.get("Start Time"));
 			DateTime endTime = format.parseDateTime(row.get("End Time"));
-			reservation = new Reservation(room, row.get("Room Occupant"),
+			booking = new Booking(room, row.get("Room Occupant"),
 					startTime, endTime);
-			Schedule.getScheduleList().add(reservation);
+			Schedule.getScheduleList().add(booking);
 		}
 	}
 
@@ -67,36 +67,35 @@ public class RoomBookingStepDefinition {
 			room = new Room(row.get("Room Name"));
 			DateTime startTime = format.parseDateTime(row.get("Start Time"));
 			DateTime endTime = format.parseDateTime(row.get("End Time"));
-			reservation = new Reservation(room, row.get("Room Occupant"),
+			booking = new Booking(room, row.get("Room Occupant"),
 					startTime, endTime);
-		message = service.bookRoom(reservation);
+		errorMessage = service.bookRoom(booking);
 
 		}
-
 	}
 
 	@Then("^I expect the following schedule to be confirmed:$")
 	public void I_expect_the_following_schedule_to_be_confirmed(
 			List<Map<String, String>> data) throws Throwable {
-		List<Reservation> confirmedList = new ArrayList<Reservation>();
 		for (Map<String, String> row : data) {
 			room = new Room(row.get("Room Name"));
 			DateTime startTime = format.parseDateTime(row.get("Start Time"));
 			DateTime endTime = format.parseDateTime(row.get("End Time"));
-			reservation = new Reservation(room, row.get("Room Occupant"),
+			booking = new Booking(room, row.get("Room Occupant"),
 					startTime, endTime);
-			confirmedList.add(reservation);
+			assertTrue(Schedule.getScheduleList().contains(booking));
 		}
 		
-		assertEquals(Schedule.getScheduleList().size(),confirmedList.size());
 
 	}
 
-	@Then("^I expect the following error messages:$")
-	public void I_expect_the_following_error_messages(DataTable arg1)
+    @Then("^I expect the following error messages:$")
+	public void I_expect_the_following_error_messages(List<Map<String, String>> data)
 			throws Throwable {	
-		assertEquals(message,"Room one is booked for part or all of the period you attempted to book for." );
-
-	}
+		for (Map<String, String> row : data) {
+		String message = row.get("Message");
+		assertEquals(errorMessage, message);
+		}
+	} 
 
 }

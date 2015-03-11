@@ -5,18 +5,18 @@ import java.util.List;
 
 public final class Schedule {
 
-	private static List<Reservation> scheduleList = new ArrayList<Reservation>();
+	private static List<Booking> scheduleList = new ArrayList<Booking>();
 		
 	private Schedule(){
 		
-		scheduleList = new ArrayList<Reservation>();
+		scheduleList = new ArrayList<Booking>();
 		
 		}
-	public static void addToScheduleList(Reservation e){
+	public static void addToScheduleList(Booking e){
 		scheduleList.add(e);
 	}
 	
-	public static void removeFromScheduleList(Reservation e){
+	public static void removeFromScheduleList(Booking e){
 		scheduleList.remove(e);
 	}
 	
@@ -24,11 +24,11 @@ public final class Schedule {
 		scheduleList.clear();
 	}
 	
-	public static List<Reservation> getScheduleList() {
+	public static List<Booking> getScheduleList() {
 		return scheduleList;
 	}
 	
-	public static void setScheduleList(List<Reservation> schedule) {
+	public static void setScheduleList(List<Booking> schedule) {
 		Schedule.scheduleList = schedule;
 	}
 	
