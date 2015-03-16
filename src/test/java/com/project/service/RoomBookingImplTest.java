@@ -14,10 +14,11 @@ import com.project.model.Booking;
 import com.project.model.Room;
 import com.project.model.RoomList;
 import com.project.model.Schedule;
+import com.project.service.RoomBookingService;
 
 public class RoomBookingImplTest {
 
-	RoomBookingImpl service = new RoomBookingImpl();
+	RoomBookingService service = new RoomBookingService();
 	Room room1;
 	Room room2;
 	Booking booking1;
@@ -28,7 +29,8 @@ public class RoomBookingImplTest {
 
 	@Before
 	public void setup() {
-
+	        Schedule.clearScheduleList();
+		RoomList.clearRoomList();
 		room1 = new Room("one");
 		room2 = new Room("five");
 
@@ -61,7 +63,8 @@ public class RoomBookingImplTest {
 	@After()
 	public void teardown() {
 		// clear schedule
-		Schedule.clearScheduleList();
+		Schedule.getScheduleList().clear();
+		RoomList.getRoomList().clear();
 	}
 
 	@Test
@@ -79,23 +82,13 @@ public class RoomBookingImplTest {
 		service.book(booking2);
 		compareList.add(booking1);
 		compareList.add(booking2);
-		assertTrue(Schedule.getScheduleList().size() == 2);
+		//assertEquals(2, Schedule.getScheduleList().size());
+		assertEquals(2, compareList.size());
+
+		//assertTrue(Schedule.getScheduleList().size() == 2);
 		assertEquals(Schedule.getScheduleList(), compareList);
 	}
 	
-	
-	/*@Test
-	public void testScheduleContent() {
-		Schedule.clearScheduleList();
-		service.book(booking2);
-		compareList.add(booking2);
-		compareList.add(booking1);
-		assertTrue(Schedule.getScheduleList().size() == 2);
-		assertEquals(Schedule.getScheduleList(), compareList);
-	} */
-
-
-
 
 
 	@Test
@@ -106,3 +99,4 @@ public class RoomBookingImplTest {
 	}
 
 }
+

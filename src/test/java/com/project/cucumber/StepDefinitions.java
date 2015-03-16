@@ -1,7 +1,5 @@
 package com.project.cucumber;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ import com.project.model.Booking;
 import com.project.model.Room;
 import com.project.model.RoomList;
 import com.project.model.Schedule;
-import com.project.service.RoomBookingInterface;
+import com.project.service.BookRoom;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -26,11 +24,17 @@ public class StepDefinitions {
 	Booking booking;
 	Room room;
 	DateTimeFormatter format = DateTimeFormat.forPattern("MM/dd/YYYY HH:mm");
-	RoomBookingInterface service = new RoomBookingInterface();
+	BookRoom useRoomService = new BookRoom ();
 	String errorMessage;
 
 	@Before
 	public void setup() {
+		RoomList.clearRoomList();
+		Schedule.clearScheduleList();
+	}
+	
+	@Before
+	public void teardown() {
 		RoomList.clearRoomList();
 		Schedule.clearScheduleList();
 	}
@@ -69,7 +73,7 @@ public class StepDefinitions {
 			DateTime endTime = format.parseDateTime(row.get("End Time"));
 			booking = new Booking(room, row.get("Room Occupant"),
 					startTime, endTime);
-		errorMessage = service.bookRoom(booking);
+		errorMessage = useRoomService .bookRoom(booking);
 
 		}
 	}

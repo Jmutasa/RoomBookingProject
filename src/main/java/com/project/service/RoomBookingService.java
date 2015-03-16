@@ -8,7 +8,7 @@ import com.project.model.Room;
 import com.project.model.RoomList;
 import com.project.model.Schedule;
 
-public class RoomBookingImpl{
+public class RoomBookingService{
 
 	public boolean isAvailable(Booking Booking) {
 
@@ -29,6 +29,7 @@ public class RoomBookingImpl{
 				}
 
 			}
+		
 
 		}
 
